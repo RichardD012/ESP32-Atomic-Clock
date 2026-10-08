@@ -29,7 +29,8 @@ const int ledPin = 32; // LED pin number
 const char *ssid = WIFI_SSID;
 const char *password = WIFI_PASSWORD;
 
-const char *ntpServer = "time.google.com";
+// const char *ntpServer = "time.google.com";
+const char *ntpServer = "192.168.2.50";
 const char *ntpServer2 = "pool.ntp.org";
 const char *ntpServer3 = "time.nist.gov";
 const long gmtOffset_sec = 0;
@@ -498,11 +499,12 @@ void loop()
     Serial.println(timeInitialized ? "YES" : "NO");
   }
 
+  printLocalTime(true);
+
   digitalWrite(ledPin, LOW);
   delay(100);
   digitalWrite(ledPin, HIGH);
 
-  printLocalTime(true);
   if (DEBUG_ENABLED)
   {
     Serial.println("=== Loop End ===\n");
@@ -591,7 +593,7 @@ void printLocalTime(bool send)
 
   String gprmc = String(buffer);
   unsigned int checksum = 0;
-  for (unsigned int i = 1; i < gprmc.length(); i++)
+  for (unsigned int i = 0; i < gprmc.length(); i++)
   {
     checksum ^= gprmc[i];
   }
